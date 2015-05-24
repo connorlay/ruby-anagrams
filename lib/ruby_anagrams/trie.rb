@@ -1,10 +1,15 @@
 class Trie
   attr_reader :root, :word_count, :node_count
 
-  def initialize
+  def initialize path = nil
     @root = Node.new
     @word_count = 0
     @node_count = 1
+    if path
+      file = File.open path, "r"
+      file.each { |line| self << line.downcase.strip }
+      file.close
+    end
   end
 
   def << word

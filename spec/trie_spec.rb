@@ -8,6 +8,12 @@ describe Trie do
       its(:node_count) { is_expected.to eq 1 }
       its(:word_count) { is_expected.to eq 0 }
     end
+    context "with parameters" do
+      subject { Trie.new "assets/sample_dictionary.txt"}
+      it { is_expected.to be_an_instance_of Trie }
+      its(:node_count) { is_expected.to eq 22}
+      its(:word_count) { is_expected.to eq 5 }
+    end
   end
 
   describe "#<<" do
