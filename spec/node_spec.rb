@@ -28,4 +28,35 @@ describe Node do
     end
   end
 
+  describe "#word" do
+    context "without parents" do
+      it "does not have a word" do
+        expect(subject.word).to be_empty
+      end
+    end
+
+    context "with parents" do
+      let(:b) { Node.new :b }
+      let(:o) { Node.new :o, b }
+      let(:a) { Node.new :a, o }
+      subject { Node.new :t, a }
+      it "has a word" do
+        expect(subject.word).to eq "boat"
+      end
+    end
+  end
+
+  describe "#to_s" do
+    before do
+      subject[:b]             = Node.new :b, subject
+      subject[:b][:o]         = Node.new :o, subject[:b]
+      subject[:b][:o][:a]     = Node.new :a, subject[:b][:o]
+      subject[:b][:o][:a][:t] = Node.new :t, subject[:b][:o][:a]
+      subject[:b][:o][:a][:t].terminal!
+    end
+    it "represents its subtree as a string" do
+      expect(subject.to_s).to eq ": \n b: \n  o: \n   a: \n    t: boat\n"
+    end
+  end
+
 end
