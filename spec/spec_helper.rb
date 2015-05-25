@@ -19,6 +19,7 @@
 
 require_relative "../lib/ruby_anagrams"
 require 'rspec/its'
+require 'byebug'
 
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate

@@ -1,11 +1,12 @@
 class Node
+  include Subtrees
   attr_reader :symbol, :children, :parent
 
   def initialize symbol = nil, parent = nil
-    @terminal = false
-    @children = {}
-    @parent = parent
     @symbol = symbol
+    @parent = parent
+    @children = {}
+    @terminal = false
   end
 
   def []= symbol, child
@@ -16,10 +17,6 @@ class Node
     @children[symbol]
   end
 
-  def word
-    @parent ? "#{@parent.word}#{@symbol}" : "#{@symbol}"
-  end
-
   def terminal!
     @terminal = true
   end
@@ -28,12 +25,8 @@ class Node
     @terminal
   end
 
-  def to_s indent = ""
-    s = "#{indent}#{@symbol}: #{@terminal ? word : nil}\n"
-    @children.each_value do |child|
-      s << child.to_s(indent + " ")
-    end
-    s
+  def word
+    @parent ? "#{@parent.word}#{@symbol}" : "#{@symbol}"
   end
 
 end
