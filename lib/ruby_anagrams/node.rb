@@ -1,32 +1,39 @@
-class Node
-  include Subtrees
-  attr_reader :symbol, :children, :parent
+module Anagrams
 
-  def initialize symbol = nil, parent = nil
-    @symbol = symbol
-    @parent = parent
-    @children = {}
-    @terminal = false
-  end
+  class Node
 
-  def []= symbol, child
-    @children[symbol] = child
-  end
+    include Subtrees
+    include Enumerable
 
-  def [] symbol
-    @children[symbol]
-  end
+    attr_reader :symbol, :children, :parent
 
-  def terminal!
-    @terminal = true
-  end
+    def initialize symbol = nil, parent = nil
+      @symbol = symbol
+      @parent = parent
+      @children = {}
+      @terminal = false
+    end
 
-  def terminal?
-    @terminal
-  end
+    def []= symbol, child
+      @children[symbol] = child
+    end
 
-  def word
-    @parent ? "#{@parent.word}#{@symbol}" : "#{@symbol}"
+    def [] symbol
+      @children[symbol]
+    end
+
+    def terminal!
+      @terminal = true
+    end
+
+    def terminal?
+      @terminal
+    end
+
+    def word
+      @parent ? "#{@parent.word}#{@symbol}" : "#{@symbol}"
+    end
+
   end
 
 end
