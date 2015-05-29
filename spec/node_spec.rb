@@ -4,6 +4,7 @@ module Anagrams
     describe "#new" do
       context "without parameters" do
         subject { Node.new }
+
         it             { is_expected.to be_an_instance_of Node }
         its(:symbol)   { is_expected.to be_nil }
         its(:parent)   { is_expected.to be_nil }
@@ -50,5 +51,6 @@ module Anagrams
         end
       end
     end
+
   end
 end

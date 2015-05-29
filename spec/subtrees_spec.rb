@@ -42,7 +42,6 @@ module Anagrams
         it { is_expected.to include "apricot" }
         its(:node_count) { is_expected.to eq 11 }
       end
-
     end
 
   end
