@@ -16,6 +16,16 @@ module Anagrams
       add_to_subtree symbols
     end
 
+    def include? word
+      symbols = str_to_sym_a word
+      search_subtree symbols
+    end
+
+    def anagrams word
+      symbols = str_to_sym_a word
+      find_anagrams symbols
+    end
+
     def str_to_sym_a word
       word.chars.map { |char| char.to_sym }
     end
