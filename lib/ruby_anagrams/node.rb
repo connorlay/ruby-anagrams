@@ -4,6 +4,7 @@ module Anagrams
 
     include Subtrees
     include Enumerable
+    include Anagrams
 
     attr_reader :symbol, :children, :parent
 
