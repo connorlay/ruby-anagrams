@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
   module Subtrees
 
     def node_count

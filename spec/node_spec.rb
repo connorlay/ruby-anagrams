@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
   describe Node do
 
     describe "#new" do
@@ -28,7 +28,6 @@ module Anagrams
 
       context "without children" do
         before { subject[:a] = child }
-
         it "has 1 child" do
           expect(subject.children.size).to be 1
         end
@@ -42,7 +41,6 @@ module Anagrams
           (:a..:z).each { |s| subject[s] = Node.new(s, subject) }
           subject[:a] = child
         end
-
         it "has 26 children" do
           expect(subject.children.size).to be 26
         end

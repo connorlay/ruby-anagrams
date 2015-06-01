@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
 
   module Enumerable
 

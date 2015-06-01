@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
   describe Root do
 
     let(:path)      { "spec/assets/sample_dictionary.txt" }
@@ -7,7 +7,6 @@ module Anagrams
     let(:root)      { Root.new }
 
     describe "#new" do
-
       context "without parameters" do
         it "is an instance of Root" do
           expect(root).to be_an_instance_of Root
@@ -22,7 +21,6 @@ module Anagrams
           expect(root.size).to be text_file.size
         end
       end
-
     end
 
     describe "#<<" do

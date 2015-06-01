@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
   describe Subtrees do
 
     describe "#<<" do

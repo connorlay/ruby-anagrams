@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
   describe Anagrams do
 
     let(:root) { Root.new "spec/assets/sample_dictionary.txt" }

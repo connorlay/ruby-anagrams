@@ -1,4 +1,4 @@
-module Anagrams
+module RubyAnagrams
   class Root < Node
 
     def initialize path = nil
