@@ -1,5 +1,4 @@
 module Anagrams
-
   class Root < Node
 
     def initialize path = nil
@@ -26,5 +25,4 @@ module Anagrams
     end
 
   end
-
 end

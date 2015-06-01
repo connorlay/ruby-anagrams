@@ -1,6 +1,0 @@
-zoo
-apple
-apricot
-mango
-peach
-pear

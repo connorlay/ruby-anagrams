@@ -1,7 +1,7 @@
 module Anagrams
   describe Root do
 
-    let(:path)      { "assets/sample_dictionary.txt" }
+    let(:path)      { "spec/assets/sample_dictionary.txt" }
     let(:text_file) { File.open(path).map(&:strip) }
     let(:words)     { %w[ these are some awesome words ] }
     let(:root)      { Root.new }
