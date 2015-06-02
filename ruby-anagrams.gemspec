@@ -11,8 +11,8 @@ Gem::Specification.new do |gem|
                      "lib/anagrams/node.rb", "lib/anagrams/root.rb", "lib/anagrams/subtrees.rb"]
   gem.license     = 'MIT'
 
-  gem.add_development_dependence 'rspec'
-  gem.add_development_dependence 'rspec-its'
-  gem.add_development_dependence 'rake'
-  gem.add_development_dependence 'yard'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'rspec-its'
+  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'yard'
 end
