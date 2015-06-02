@@ -1,0 +1,5 @@
+require_relative 'anagrams/subtrees'
+require_relative 'anagrams/enumerable'
+require_relative 'anagrams/anagrams'
+require_relative 'anagrams/node'
+require_relative 'anagrams/root'

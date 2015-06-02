@@ -50,5 +50,13 @@ module RubyAnagrams
       end
     end
 
+    describe "#inspect" do
+      let(:root) { Root.new "spec/assets/sample_dictionary.txt" }
+
+      it "returns reduced inspect information" do
+        expect(root.inspect).to eq "<#{root.class}:#{root.object_id}, @symbol=nil, @word=nil, @children=#{(:a..:z).to_a}>"
+      end
+    end
+
   end
 end
