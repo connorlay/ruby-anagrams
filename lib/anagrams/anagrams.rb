@@ -7,85 +7,64 @@ module RubyAnagrams
     # A Hash associating symbols with unique prime numbers.
     SYM_PRIMES = (:a..:z).to_a.zip(Prime.first(26)).to_h
 
-    # Returns all words in the trie data structure that are anagrams
-    # of the string provided. "*" indicates a wildcard.
-    # @note Default behavior finds complete anagrams that use every character
-    #   in the string. Partial anagrams can be included by setting include_partial
-    #   to true.
-    # @example without partial anagrams
-    #   root << "rise"
-    #   root << "sire"
-    #   root << "rie"
-    #   #anagrams "rise" #=> ['rise', 'sire']
-    # @example with partial anagrams
-    #   root << "rise"
-    #   root << "sire"
-    #   root << "rie"
-    #   #anagrams "rise", include_partial: true #=> ['rie', 'rise', 'sire']
-    # @example with wildcards
-    #   root << "bin"
-    #   root << "ban"
-    #   root << "bun"
-    #   #anagrams "b*n" #=> ['ban', 'bin', 'bun']
-    # @param string [String] the string to find anagrams of.
-    # @param include_partial [Boolean] include partial anagrams?
-    # @return [Array<String>] all anagrams of the given string.
-    def anagrams string, include_partial: false
-      symbols = string.to_sym_a
+    class << self
+      # Returns the product of each symbol's associated prime number.
+      # @param symbols [Array<Symbol>] the symbols to multiply.
+      # @return [Integer] the product of each symbol's associated prime number.
+      def sym_a_to_product symbols
+        symbols.inject(1) { |acc,sym| acc * SYM_PRIMES[sym] }
+      end
+
+      # Returns all permutations of a symbol array, where "*" wildcards
+      # are replaced with symbols in the trie's alphabet.
+      # @param symbols [Array<Symbol>] the symbols to permute.
+      # @return [Array<Array<Symbol>>] the permutations.
+      def sym_a_permutations symbols
+        permutations = []
+        base_symbols = symbols.reject { |s| s == :* }
+        wildcard_permutations = (:a..:z).to_a.repeated_permutation(symbols.count :*)
+        wildcard_permutations.each do |permutation|
+          permutations << permutation.concat(base_symbols)
+        end
+        permutations.empty? ? [symbols] : permutations
+      end
+    end
+
+    # Returns all string anagrams of the given symbol array by calling
+    # #anagrams_by_product on all permutations of the symbol array.
+    # @note Default behavior only includes complete anagrams. Partial anagrams
+    #   can be included by setting partial to true.
+    # @param symbols [Array<Symbol>] the symbols to find anagrams for.
+    # @param partial [Boolean] include partial anagrams?
+    # @return [Array<Array<String>>] all anagrams of the symbols.
+    def search_for_anagrams symbols, partial: partial
       anagrams = []
-      find_symbol_permutations(symbols).each do |permutation|
-        anagrams.concat find_anagrams(as_product(permutation), include_partial: include_partial)
+      Anagrams.sym_a_permutations(symbols).each do |permutation|
+        product = Anagrams.sym_a_to_product permutation
+        anagrams.concat anagrams_by_product(product, partial: partial)
       end
       anagrams.uniq.sort
     end
 
-    protected
-      # Returns anagrams in the trie data structure by performing depth-first search,
-      # following subtrees whose symbol's associated prime number is a prime factor
-      # of the product representing a string. The words of visited terminal nodes
-      # are returned as an array.
-      # @note Default behavior finds words that consume all prime factors
-      #   of the given product. Words that do not consume all prime factors can
-      #   be included by setting include_partial to true.
-      # @param product [Integer] the product representing the string to find
-      #   anagrams of.
-      # @param include_partial [Boolean] include partial anagrams?
-      # @return [Array<String>] all anagrams whose product divides into the given
-      #   product.
-      def find_anagrams product, include_partial: false
-        anagrams = []
-        anagrams << word if terminal? && (include_partial ? true : product == 1)
-        @children.each do |symbol,child|
-          if product % SYM_PRIMES[symbol] == 0
-            anagrams += child.find_anagrams(product / SYM_PRIMES[symbol], include_partial: include_partial)
-          end
+    # Depth-first searches the trie data structure for anagrams based on their
+    # node's associated prime number. Returns an array of anagrams whose product
+    # divides into the given product.
+    # @note Default behavior only includes words with a product equal to the
+    #   given product. Words that are divisors of the given product can be
+    #   included by setting partial to true.
+    # @param product [Integer] a product of a symbol array.
+    # @param partial [Boolean] include partial anagrams?
+    # @return [Array<String>] all anagrams of the given product.
+    def anagrams_by_product product, partial: partial
+      anagrams = []
+      anagrams << word if terminal? && (partial ? true : product == 1)
+      @children.each do |symbol,child|
+        if product % SYM_PRIMES[symbol] == 0
+          anagrams += child.anagrams_by_product(product / SYM_PRIMES[symbol], partial: partial)
         end
-        anagrams
       end
-
-      # Returns all permutations of the given set of symbols, where "*" wildcards
-      # are replaced with all possible permutations of symbols in the trie's
-      # alphabet.
-      # @example with 1 wildcard
-      #   alphabet = [:a, :b, :c]
-      #   #find_symbol_permutations [:a, :*, :c] #=> [[:a, :a, :c], [:a, :b, :c], [:a, :c, :c]]
-      # @param symbols [Array<Symbol>] the symbols to permute.
-      # @return [Array<Array<Symbol>>] all permutations of the symbols.
-      def find_symbol_permutations symbols
-        symbol_permutations = []
-        non_wild_symbols = symbols.reject{|s| s == :*}
-        (:a..:z).to_a.repeated_permutation(symbols.count :*).each do |permutation|
-          symbol_permutations << non_wild_symbols + permutation
-        end
-        symbol_permutations.empty? ? [symbols] : symbol_permutations
-      end
-
-      # Returns the product of each symbol's associated prime number.
-      # @param symbols [Array<Symbol>] the symbols to multiply.
-      # @return [Integer] the product of each symbol's associated prime number.
-      def as_product symbols
-        symbols.inject(1) { |acc,sym| acc * SYM_PRIMES[sym] }
-      end
+      anagrams
+    end
 
   end
 end
