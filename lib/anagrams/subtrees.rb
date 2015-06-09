@@ -14,6 +14,18 @@ module RubyAnagrams
       nodes
     end
 
+    # Descends the trie data structure following the given sequence of symbols.
+    # The last node visited is returned, either because it is a leaf or there
+    # are no symbols left.
+    # @param symbols [Array<Symbol>] the symbol sequence to follow.
+    # @return [Node] the last node visited.
+    def descend symbols
+      return self unless symbol = symbols[0]
+      return self unless child = @children[symbol]
+      symbols.slice! 0
+      child.descend(symbols)
+    end
+
   protected
     # Descends the trie data structure, adding nodes when needed, for a given
     # sequence of symbols. The last node visited is designated as a terminal.
