@@ -3,8 +3,6 @@ module RubyAnagrams
   # @author Connor Lay
   class Root < Node
 
-    #using StringToSymbolArray
-
     # Creates a new trie.
     # @param path [String, nil] the path to a dictionary text file.
     # @return [Root] the Root node of the trie just created.
@@ -23,6 +21,8 @@ module RubyAnagrams
     def << word
       add_to_subtree word.to_sym_a
     end
+
+    alias :add :<<
 
     # If the trie contains the word.
     # @param word [String] the word to search for.
