@@ -38,7 +38,7 @@ root.anagrams "pale" #=> ["leap", "pale", "peal" "plea"]
 ```
 Including partial anagrams:
 ``` ruby
-  root.anagrams "pale", include_partial: true #=> ["ae", "al", "ale", "alp", "ape", "el", "la", "lap", "lea", "leap", "pa", "pal", "pale", "pe", "pea", "peal", "plea"]
+  root.anagrams "pale", partial: true #=> ["ae", "al", "ale", "alp", "ape", "el", "la", "lap", "lea", "leap", "pa", "pal", "pale", "pe", "pea", "peal", "plea"]
 ```
 You can also use "*" as a wildcard:
 ``` ruby
