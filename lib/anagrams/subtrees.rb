@@ -17,13 +17,14 @@ module RubyAnagrams
     # Descends the trie data structure following the given sequence of symbols.
     # The last node visited is returned, either because it is a leaf or there
     # are no symbols left.
+    # @note This method alters the symbol array.
     # @param symbols [Array<Symbol>] the symbol sequence to follow.
     # @return [Node] the last node visited.
     def descend symbols
       return self unless symbol = symbols[0]
       return self unless child = @children[symbol]
       symbols.slice! 0
-      child.descend(symbols)
+      child.descend symbols
     end
 
   protected
@@ -32,27 +33,22 @@ module RubyAnagrams
     # @param symbols [Array<Symbol>] the symbol sequence to follow.
     # @return [String] the word represented by the last node visited.
     def add_to_subtree symbols
-      if symbols.empty?
-        terminal!
-        return word
+      current = descend symbols
+      symbols.each do |symbol|
+        current[symbol] = Node.new symbol, current
+        current = current[symbol]
       end
-      s = symbols.slice! 0
-      unless child = @children[s]
-        child = Node.new s, self
-        @children[s] = child
-      end
-      child.add_to_subtree symbols
+      current.terminal!
+      current.word
     end
 
-    # Performs depth-first search, following a sequence of symbols, on the trie
-    # data structure. Returns true if the last node visited is a terminal.
+    # Depth-first searches the trie data structure for a node representing a
+    # given sequence of symbols.
     # @param symbols [Array<Symbol>] the symbol sequence to follow.
     # @return [Boolean] true if the last node visited is a terminal, false otherwise.
     def search_subtree symbols
-      return true if symbols.empty? && terminal?
-      s = symbols.slice! 0
-      return false unless child = @children[s]
-      child.search_subtree symbols
+      current = descend symbols
+      current.terminal? && symbols.empty?
     end
 
   end
