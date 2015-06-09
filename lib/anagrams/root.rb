@@ -31,5 +31,31 @@ module RubyAnagrams
       search_subtree word.to_sym_a
     end
 
+    # Returns all anagrams of the given word. Wildcards are indicated with "*".
+    # @note Default behavior only includes complete anagrams. Partial anagrams
+    #   can be included by setting partial to true.
+    # @example without partial anagrams
+    #   root << "rise"
+    #   root << "sire"
+    #   root << "rie"
+    #   #anagrams "rise" #=> ['rise', 'sire']
+    # @example with partial anagrams
+    #   root << "rise"
+    #   root << "sire"
+    #   root << "rie"
+    #   #anagrams "rise", include_partial: true #=> ['rie', 'rise', 'sire']
+    # @example with wildcards
+    #   root << "bin"
+    #   root << "ban"
+    #   root << "bun"
+    #   #anagrams "b*n" #=> ['ban', 'bin', 'bun']
+    # @param word [String] the word to find anagrams for.
+    # @param partial [Boolean] include partial anagrams?
+    # @return [Array<String>] anagrams of word.
+    def anagrams word, partial: false
+      symbols = word.to_sym_a
+      search_for_anagrams symbols, partial: partial
+    end
+
   end
 end
