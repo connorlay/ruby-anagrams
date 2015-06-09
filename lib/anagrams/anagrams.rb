@@ -31,7 +31,7 @@ module RubyAnagrams
     # @param include_partial [Boolean] include partial anagrams?
     # @return [Array<String>] all anagrams of the given string.
     def anagrams string, include_partial: false
-      symbols = str_to_sym_a string
+      symbols = string.to_sym_a
       anagrams = []
       find_symbol_permutations(symbols).each do |permutation|
         anagrams.concat find_anagrams(as_product(permutation), include_partial: include_partial)
