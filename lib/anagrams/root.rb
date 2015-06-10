@@ -19,7 +19,8 @@ module RubyAnagrams
     # @param word [String] the new word to add to the trie.
     # @return [String] the word just added to the trie.
     def << word
-      add_to_subtree word.to_sym_a
+      symbols = word.to_sym_a
+      add_to_subtree symbols
     end
 
     alias :add :<<
@@ -28,8 +29,11 @@ module RubyAnagrams
     # @param word [String] the word to search for.
     # @return [Boolean] true if the word is found, false otherwise.
     def include? word
-      search_subtree word.to_sym_a
+      symbols = word.to_sym_a
+      search_subtree symbols
     end
+
+    alias :contains? :include?
 
     # Returns all anagrams of the given word. Wildcards are indicated with "*".
     # @note Default behavior only includes complete anagrams. Partial anagrams
@@ -43,7 +47,7 @@ module RubyAnagrams
     #   root << "rise"
     #   root << "sire"
     #   root << "rie"
-    #   #anagrams "rise", include_partial: true #=> ['rie', 'rise', 'sire']
+    #   #anagrams "rise", partial: true #=> ['rie', 'rise', 'sire']
     # @example with wildcards
     #   root << "bin"
     #   root << "ban"
