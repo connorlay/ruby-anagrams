@@ -25,12 +25,14 @@ root = RubyAnagrams::Root.new "some_text_file.txt"
 ``` ruby
 root << "mystring"
 ```
+You can also use #add
 
 ### Testing for string inclusion
 ``` ruby
 root.include? "mystring"   #=> true
 root.include? "skldflsjd"  #=> false
 ```
+You can also use #contains?
 
 ### Finding anagrams
 ``` ruby
@@ -40,7 +42,7 @@ Including partial anagrams:
 ``` ruby
   root.anagrams "pale", partial: true #=> ["ae", "al", "ale", "alp", "ape", "el", "la", "lap", "lea", "leap", "pa", "pal", "pale", "pe", "pea", "peal", "plea"]
 ```
-You can also use "*" as a wildcard:
+"*" wildcards:
 ``` ruby
 root.anagrams "b*n" #=> ["ban", "ben", "bin", "bun", "nab", "neb", "nib", "nob", "nub"]
 ```
