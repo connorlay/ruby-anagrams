@@ -9,11 +9,9 @@ module RubyAnagrams
     # an Enumerator is returned.
     # @return [Enumerator] the enumerator for the words in the trie data structure.
     def each &block
-      enumerator = Enumerator.new do |y|
-        y << word if terminal?
-        @children.each_value do |child|
-          child.each { |word| y << word }
-        end
+      enumerator = Enumerator.new do |yielder|
+        yielder << word if terminal?
+        @children.each_value { |child| child.each { |word| yielder << word } }
       end
       block.nil? ? enumerator : enumerator.each(&block)
     end
